@@ -1,3 +1,4 @@
+import sys
 import pygame
 from constants import *
 from player import *
@@ -21,7 +22,7 @@ def main():
 
     Player.containers = (updatable, drawable)
     player = Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
-    
+
     while True:
         #limit game FPS to 60
         dt = clock.tick(60) / 1000
@@ -33,6 +34,11 @@ def main():
         
         # Update game objects
         updatable.update(dt)
+        
+        for asteroid in asteroids:
+            if asteroid.collision(player) == True:
+                print("Game over!")
+                sys.exit()
 
         # Draw everything
         screen.fill("black")
