@@ -1,7 +1,7 @@
 import pygame
 from circleshape import CircleShape
 from constants import *
-from shot import *
+from shot import Shot  # Ensure you import the Shot class
 
 class Player(CircleShape):
     def __init__(self, x, y):
@@ -22,13 +22,15 @@ class Player(CircleShape):
     
     def rotate(self, dt):
         self.rotation += PLAYER_TURN_SPEED * dt
+        # Keep rotation within [0, 360) degrees
+        self.rotation %= 360
 
-    
     def update(self, dt):
         keys = pygame.key.get_pressed()
         if self.timer > 0:
             self.timer -= dt
 
+        # Process movement and rotation based on key input.
         if keys[pygame.K_w]:
             self.move(dt)
         if keys[pygame.K_s]:
@@ -36,31 +38,45 @@ class Player(CircleShape):
         if keys[pygame.K_a]:
             self.rotate(-dt)
         if keys[pygame.K_d]:
-           self.rotate(dt)
+            self.rotate(dt)
         if keys[pygame.K_SPACE]:
             self.shoot()
+
+        # Bound the player's position so that they remain inside the window.
+        self.bound_to_screen()
 
     def move(self, dt):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         self.position += forward * PLAYER_SPEED * dt
-    
+
+    def bound_to_screen(self):
+        """
+        Constrains the player's position so that they remain fully visible within the game window.
+        """
+        # For the horizontal boundaries:
+        if self.position.x - self.radius < 0:
+            self.position.x = self.radius
+        elif self.position.x + self.radius > SCREEN_WIDTH:
+            self.position.x = SCREEN_WIDTH - self.radius
+        
+        # For the vertical boundaries:
+        if self.position.y - self.radius < 0:
+            self.position.y = self.radius
+        elif self.position.y + self.radius > SCREEN_HEIGHT:
+            self.position.y = SCREEN_HEIGHT - self.radius
+
     def shoot(self):
+        # Enforce shooting cooldown.
         if self.timer > 0:
             return 
-        # Create a new shot at the player's position
         self.timer = PLAYER_SHOOT_COOLDOWN
+        
+        # Create a shot at the current player position.
         shot = Shot(self.position.x, self.position.y)
         
-
-        # Set the shot's velocity
-        # 1. Start with a Vector2 of (0, 1)
-        # 2. Rotate it in the direction the player is facing
-        # 3. Scale it up by PLAYER_SHOOT_SPEED
+        # Calculate the shot's velocity based on the current player's rotation.
         shot.velocity = pygame.Vector2(0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
-
-        # Return the shot so it can be added to the shots group
         return shot
-
 
 
 
