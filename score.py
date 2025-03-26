@@ -9,8 +9,8 @@ class ScoreManager:
         self.score = 0
         self.score_amount = SCORE_AMOUNT
     
-    def increment_score(self):  #Default score
-        self.score += self.score_amount
+    def increment_score(self, extra_points=0):  # Allows for additional points
+        self.score += self.score_amount + extra_points
 
     def get_score(self):
         return self.score
