@@ -1,3 +1,4 @@
+import sys
 import pygame
 from constants import *
 
@@ -11,8 +12,8 @@ def show_intro_screen(screen, font):
         instructions = [
             ("Power-Up Guide", "white"),
             ("Shield Power-Up: Protects you from asteroids (Color: Blue)", SHIELD_COLOR),
-            ("Speed Power-Up: Boosts your speed (Color: Red)", SPEED_COLOR),
-            ("Bomb Power-Up: Destroys asteroids instantly (Color: Yellow)", BOMB_COLOR),
+            ("Speed Power-Up: Boosts your speed (Color: Green)", SPEED_COLOR),
+            ("Bomb Power-Up: Destroys asteroids instantly (Color: Red)", BOMB_COLOR),
             ("Press SPACEBAR to start the game", "white"),
         ]
 
