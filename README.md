@@ -1,1 +1,1 @@
-It's a triangle, and it shoots. What more do you need?
+It's a triangle, that shoots tiny triangles. What more do you need?
