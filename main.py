@@ -89,6 +89,7 @@ def main():
             for asteroid in asteroids:
                 if asteroid.collision(player):
                     if player.shield_active > 0:  # If the shield is active
+                        score_manager.increment_score(extra_points=20)
                         asteroid.kill()  # Destroy the asteroid
                     else:
                         # Game over
@@ -106,7 +107,7 @@ def main():
                     if shot.collision(asteroid):
                         shot.kill()
                         if shot.is_bomb:  # Check if the shot is a bomb
-                            score_manager.increment_score(extra_points=10)  # Award bonus points
+                            score_manager.increment_score(extra_points=30)  # Award bonus points
                             asteroid.kill()  # Instantly destroy the asteroid
                         else:
                             score_manager.increment_score()
